@@ -62,6 +62,7 @@ df <- data.frame("Title" = movie_titles,
 # ----------One Variable Visualization----------
 
 # Interactive Pie Chart for Genres
+# obtain the count of each genre
 counts <- c()
 for(genre in genres){
   sum <- 0
@@ -71,11 +72,13 @@ for(genre in genres){
   }
   counts[genre] <- sum
 }
-
+# plot the pie chart using plotly
 g_df <- data.frame("genre"=names(counts), "count"=counts)
 p <- plot_ly(g_df, labels = ~genre, values = ~count, textposition = 'outside',
              textinfo = 'label') %>%
   add_pie(hole = 0.6) %>%
   layout(title = 'Distribution of Movie Genres', showlegend = F)
+
+# 
 
 
