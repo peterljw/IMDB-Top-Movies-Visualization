@@ -36,13 +36,15 @@ movie_metascores <- url %>%
   html_nodes(".lister-item-content")
 movie_metascores <- sapply(movie_metascores, function(x) html_node(x, ".metascore"))
 movie_metascores <- sapply(movie_metascores, function(x) html_text(x))
-movie_metascores[!is.na(movie_metascores)] <- sapply(movie_metascores[!is.na(movie_metascores)], function(x) as.integer(parse_number(x)))
+movie_metascores[!is.na(movie_metascores)] <- sapply(movie_metascores[!is.na(movie_metascores)], function(x) as.numeric(parse_number(x)))
+movie_metascores <- as.numeric(movie_metascores)
 
 movie_gross <- url %>%
   html_nodes(".lister-item-content")
 movie_gross <- sapply(movie_gross, function(x) html_node(x, ".ghost+ .text-muted+ span"))
 movie_gross <- sapply(movie_gross, function(x) html_text(x))
 movie_gross[!is.na(movie_gross)] <- sapply(movie_gross[!is.na(movie_gross)], function(x) parse_number(x)*1000000)
+movie_gross <- as.numeric(movie_gross)
 
 movie_genre <- url %>%
   html_nodes(".genre") %>%
@@ -58,11 +60,8 @@ df <- data.frame("Title" = movie_titles,
                  "MovieMetascore" = movie_metascores,
                  "MovieGenere" = movie_genre,
                  "MovieGross" = movie_gross)
+write.csv(df, file = "imdb-top100.csv")
 
-# ----------One Variable Visualization----------
-
-# Interactive Pie Chart for Genres
-# obtain the count of each genre
 counts <- c()
 for(genre in genres){
   sum <- 0
@@ -72,13 +71,6 @@ for(genre in genres){
   }
   counts[genre] <- sum
 }
-# plot the pie chart using plotly
+# genre piet chart
 g_df <- data.frame("genre"=names(counts), "count"=counts)
-p <- plot_ly(g_df, labels = ~genre, values = ~count, textposition = 'outside',
-             textinfo = 'label') %>%
-  add_pie(hole = 0.6) %>%
-  layout(title = 'Distribution of Movie Genres', showlegend = F)
-
-# 
-
-
+write.csv(g_df, file = "genre-counts.csv")
