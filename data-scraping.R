@@ -60,7 +60,8 @@ df <- data.frame("Title" = movie_titles,
                  "MovieMetascore" = movie_metascores,
                  "MovieGenere" = movie_genre,
                  "MovieGross" = movie_gross)
-write.csv(df, file = "imdb-top100.csv")
+#write.csv(df, file = "imdb-top100.csv")
+#saveRDS(df, "imdb-top100.rds")
 
 counts <- c()
 for(genre in genres){
@@ -73,4 +74,5 @@ for(genre in genres){
 }
 # genre piet chart
 g_df <- data.frame("genre"=names(counts), "count"=counts)
-write.csv(g_df, file = "genre-counts.csv")
+#write.csv(g_df, file = "genre-counts.csv")
+#saveRDS(g_df, file = "genre-counts.rds")

@@ -5,10 +5,9 @@ library(plotly)
 library(tidyverse)
 
 
-imdb_df <- read_csv("imdb-top100.csv", col_types = cols(X1 = col_skip()))
+imdb_df <- readRDS("imdb-top100.rds")
 colnames(imdb_df) <- c("Title", "Rank", "Length", "Rating", "Metascore", "Genre", "Gross")
-genre_counts <- read_csv("genre-counts.csv", 
-                         col_types = cols(X1 = col_skip()))
+genre_counts <- readRDS("genre-counts.rds")
 
 ui <- dashboardPage(
   dashboardHeader(title = "IMDB Top 100 (2018)"),
@@ -144,8 +143,7 @@ server <- function(input, output) {
       if(input$type == "Histogram"){
         ggplotly(ggplot(imdb_df, aes_string(x=input$onevar)) + 
                    geom_histogram(bins = 10, aes(fill = ..count..)) + 
-                   xlab(input$onevar) + ylab("Count") + 
-                   ggtitle(paste(input$onevar, "Histogram")))
+                   xlab(input$onevar) + ylab("Count"))
       }else{
         plot_ly(imdb_df, y = ~get(input$onevar), type = "box", name = input$onevar)%>%
           layout(yaxis = list(title = y))
@@ -162,7 +160,7 @@ server <- function(input, output) {
   
   # three-variable plots to be displayed in the tab "threevar"
   output$threevarplot <- renderPlotly({
-    plot_ly(imdb_df, x = ~get(input$threex), y = ~get(input$threey), z = ~get(input$threez), color = ~get(input$threez), alpha = 0.8) %>%
+    plot_ly(imdb_df, x = ~get(input$threex), y = ~get(input$threey), z = ~get(input$threez), color = ~get(input$threez), alpha = 0.9) %>%
       add_markers() %>%
       colorbar(title = input$threez) %>%
       layout(scene = list(xaxis = list(title = input$threex),
