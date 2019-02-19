@@ -7,6 +7,7 @@ Link to the published web app: https://peterljw.shinyapps.io/imdb-visualization/
 ## Built With
 
 * [R Shiny](https://shiny.rstudio.com/) - The web app builder package offered by RStudio
+* [Rvest](https://blog.rstudio.com/2014/11/24/rvest-easy-web-scraping-with-r/) - R package used for web scraping
 * [ggplot2](https://ggplot2.tidyverse.org/) - R package used to plotting
 * [Plotly](https://plot.ly/r/) - R package used to make plots interative
 
