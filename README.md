@@ -1,4 +1,4 @@
-# IMDB Top 100 Movies(2018) Visualization
+# IMDB Top 100 Movies (2018) Visualization
 
 This project aims to visualize and explore data of the top 100 movies of 2018 posted by IMDB by building an interactive rshiny dashboard. The first stage of the project involves scraping data off the IMDB webpage to obtain movies' titles, ratings, metascores, genres, etc and preprocessing the scraped data to transform it into a table format. A web app is then built to explore summary statistics of indivudal movie features as well as relationships between multiple movie features.
 
