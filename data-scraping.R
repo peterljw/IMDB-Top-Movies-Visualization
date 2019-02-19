@@ -72,7 +72,7 @@ for(genre in genres){
   }
   counts[genre] <- sum
 }
-# genre piet chart
+# genre counts
 g_df <- data.frame("genre"=names(counts), "count"=counts)
 #write.csv(g_df, file = "genre-counts.csv")
 #saveRDS(g_df, file = "genre-counts.rds")
