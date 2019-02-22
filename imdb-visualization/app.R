@@ -42,7 +42,7 @@ ui <- dashboardPage(
                                                  "Metascore",
                                                  "Gross",
                                                  "Genre"),
-                                     selected = "Genre"),
+                                     selected = "Rating"),
                          selectInput("type", h3("Plot Selection"), 
                                      choices = c("Histogram",
                                                  "Boxplot"),
