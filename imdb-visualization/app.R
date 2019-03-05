@@ -1,5 +1,6 @@
 library(shiny)
 library(shinydashboard)
+library(shinythemes)
 library(readr)
 library(plotly)
 library(tidyverse)
@@ -10,7 +11,8 @@ colnames(imdb_df) <- c("Title", "Rank", "Length", "Rating", "Metascore", "Genre"
 genre_counts <- readRDS("genre-counts.rds")
 
 ui <- dashboardPage(
-  dashboardHeader(title = "IMDB Top 100 (2018)"),
+  skin = "black",
+  dashboardHeader(title = "IMDB Top Movies"),
   dashboardSidebar(
     sidebarMenu(
       menuItem("Data Table", tabName = "table", icon = icon("table")),
@@ -35,7 +37,7 @@ ui <- dashboardPage(
       tabItem(tabName = "onevar",
               fluidRow(
                 column(3,
-                       box(width = NULL, status = "warning",
+                       box(width = NULL, 
                          selectInput("onevar", h3("Variable Selection"), 
                                      choices = c("Length",
                                                  "Rating",
@@ -61,7 +63,7 @@ ui <- dashboardPage(
       tabItem(tabName = "twovar",
               fluidRow(
                 column(3,
-                       box(width = NULL, status = "warning",
+                       box(width = NULL, 
                            selectInput("twox", h3("X-Variable Selection"), 
                                        choices = c("Length",
                                                    "Rating",
@@ -86,7 +88,7 @@ ui <- dashboardPage(
       tabItem(tabName = "threevar",
               fluidRow(
                 column(3,
-                       box(width = NULL, status = "warning",
+                       box(width = NULL, 
                            selectInput("threex", h3("X-Variable Selection"), 
                                        choices = c("Length",
                                                    "Rating",
