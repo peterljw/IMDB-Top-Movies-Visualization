@@ -48,8 +48,10 @@ ui <- dashboardPage(
                          selectInput("type", h3("Plot Selection"), 
                                      choices = c("Histogram",
                                                  "Boxplot"),
-                                     selected = "Genre"),
-                         helpText("Note: Plot selection is not available for the varaible 'genre'."))
+                                     selected = "Length"),
+                         helpText("Note: Plot selection is not available for the varaible 'genre'."),
+                         sliderInput("bin", h3("Number of Bins"),
+                                     min = 0, max = 100, value = 10))
                        ),
                 column(9,
                        box(width = NULL, solidHeader = TRUE,
@@ -75,7 +77,9 @@ ui <- dashboardPage(
                                                    "Rating",
                                                    "Metascore",
                                                    "Gross"),
-                                       selected = "Gross"))
+                                       selected = "Gross"),
+                           radioButtons("smoother", h3("Smoother Line"),
+                                        choices = list("On" = 1, "Off" = 0),selected = 0))
                 ),
                 column(9,
                        box(width = NULL, solidHeader = TRUE,
@@ -144,7 +148,7 @@ server <- function(input, output) {
     }else{
       if(input$type == "Histogram"){
         ggplotly(ggplot(imdb_df, aes_string(x=input$onevar)) + 
-                   geom_histogram(bins = 10, aes(fill = ..count..)) + 
+                   geom_histogram(bins = input$bin, aes(fill = ..count..)) + 
                    xlab(input$onevar) + ylab("Count"))
       }else{
         plot_ly(imdb_df, y = ~get(input$onevar), type = "box", name = input$onevar)%>%
@@ -155,9 +159,15 @@ server <- function(input, output) {
   
   # two-variable plots to be displayed in the tab "twovar"
   output$twovarplot <- renderPlotly({
-    ggplotly(ggplot(imdb_df, aes_string(x=input$twox, y=input$twoy, color=input$twoy)) +
-               geom_point(size=1.5, alpha=0.7) + geom_smooth(method = "loess") +
-               xlab(input$twox) + ylab(input$twoy))
+    if(input$smoother == 1) {
+      ggplotly(ggplot(imdb_df, aes_string(x=input$twox, y=input$twoy, color=input$twoy)) +
+                 geom_point(size=1.5, alpha=0.7) + geom_smooth(method = "loess") +
+                 xlab(input$twox) + ylab(input$twoy))
+    }else {
+      ggplotly(ggplot(imdb_df, aes_string(x=input$twox, y=input$twoy, color=input$twoy)) +
+                 geom_point(size=1.5, alpha=0.7) +
+                 xlab(input$twox) + ylab(input$twoy))
+    }
   })
   
   # three-variable plots to be displayed in the tab "threevar"
